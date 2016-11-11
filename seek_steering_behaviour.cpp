@@ -46,7 +46,8 @@ void SeekSteeringBehaviour::seek(double target[2]){
 	}*/
 } 	
 
-double *SeekSteeringBehaviour::getSteeringSeek(double target[2]){
+double *SeekSteeringBehaviour::getSteeringSeek(double target[2], int k){
+
 	//test de inicializaci'on
 	if(locomotion==NULL){std::cout<<"el cuerpo locomotion no ha sido inicializado";return NULL;}
 	//recaba informaci'on del cuerpo locomotion
@@ -60,8 +61,26 @@ double *SeekSteeringBehaviour::getSteeringSeek(double target[2]){
 	double desired[2]={target[0]-position[0], target[1]-position[1]};
 	double *steer=NULL;
 	double norm;
+	if(this->scene->isPointFreeInScene(position[0],position[1]))
+				std::cout<<"el punto ya se salio!!!";
 
-	if(desired[0]!=0.0 && desired[0]!=0.0){
+	if(k>10){
+		return NULL;//bug para checar con visualizador
+/*		std::cout<<"tar "<<target[0]<<" "<<target[1]<<std::endl;
+		std::cout<<"pos "<<position[0]<<" "<<position[1]<<std::endl;
+
+		std::cin.get();
+		if(k>3)
+
+			if(this->scene->isPointFreeInScene(position[0],position[1]))
+				std::cout<<"el punto ya se salio!!!";
+			else
+				std::cout<<"punto libre";
+*/
+	}
+
+
+	if(desired[0]!=0.0 && desired[1]!=0.0){
 		norm=sqrt(desired[0]*desired[0]+desired[1]*desired[1]);
 		//normaliza direcci'on deseada respecto a la axima velocidad lineal
 		desired[0]*= maxLinearVelocity/norm;
@@ -93,9 +112,9 @@ double *SeekSteeringBehaviour::getSteeringSeek(double target[2]){
 
 			if(collisionSegmentRight==collisionSegmentRight){//no esquina
 				std::cout<<"colision doble "<<std::endl;
-				double normal[2]={-collisionSegmentRight->getY1()-collisionSegmentRight->getY2(),collisionSegmentRight->getX1()-collisionSegmentRight->getX2()};
+				double normal[2]={-collisionSegmentRight->getY1()+collisionSegmentRight->getY2(),collisionSegmentRight->getX1()-collisionSegmentRight->getX2()};
 				//dadas dos normales, define cu'al es la normal usando producto punto del steer y de la normal obtenida, el cual debe de ser negativo por la direccion de ambos
-				if(normal[0]*steer[0]+normal[1]+steer[1]>0){
+				if(normal[0]*steer[0]+normal[1]*steer[1]>0){
 					normal[0]*=-1;
 					normal[1]*=-1;
 				}
@@ -104,7 +123,7 @@ double *SeekSteeringBehaviour::getSteeringSeek(double target[2]){
 				normal[0]=(leftCollision[0]+rightCollision[0])/2.0+normal[0]*(avoidanceRadii)/norm;//?
 				normal[1]=(leftCollision[1]+rightCollision[1])/2.0+normal[1]*(avoidanceRadii)/norm;//?
 				
-				return this->getSteeringSeek(normal); //sets new target
+				return this->getSteeringSeek(normal,k+1); //sets new target
 			}
 			else{//esquina detectada
 				std::cout<<"colision esquina "<<std::endl;
@@ -119,7 +138,7 @@ double *SeekSteeringBehaviour::getSteeringSeek(double target[2]){
 				}
 				double normal[3]={-collisionSegmentCenter->getY1()-collisionSegmentCenter->getY2(),0,collisionSegmentCenter->getX1()-collisionSegmentCenter->getX2()};
 				//dadas dos normales, define cu'al es la normal usando producto punto del steer y de la normal obtenida, el cual debe de ser negativo por la direccion de ambos
-				if(normal[0]*steer[0]+normal[2]+steer[2]>0){
+				if(normal[0]*steer[0]+normal[2]*steer[2]>0){
 					normal[0]*=-1;
 					normal[1]*=-1;
 				}
@@ -127,21 +146,23 @@ double *SeekSteeringBehaviour::getSteeringSeek(double target[2]){
 				norm=sqrt(normal[0]*normal[0]+normal[1]*normal[1]);
 				normal[0]=centerCollision[0]+normal[0]*(avoidanceRadii)/norm;//normal al punto de colisi'on
 				normal[1]=centerCollision[1]+normal[1]*(avoidanceRadii)/norm;
-				return this->getSteeringSeek(normal); //sets new target
+				return this->getSteeringSeek(normal,k+1); //sets new target
 			}
 		}
 		else if(collisionSegmentRight){ //solo colisi'on en la derecha, genera target a la izquierda
 			std::cout<<"colision derecha "<<std::endl;
-			double new_target[2]={leftPoint[0] +velocity[0]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[0],leftPoint[1] +velocity[1]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[1]};
-			return this->getSteeringSeek(new_target);
+			//double new_target[2]={leftPoint[0] +velocity[0]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[0],leftPoint[1] +velocity[1]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[1]};
+			double new_target[2]={position[0]+desired[0]*cos(0.1)-desired[1]*sin(0.1),position[1]+desired[0]*sin(0.1)+desired[1]*cos(0.1)};
+			return this->getSteeringSeek(new_target,k+1);
 		}
 		else if(collisionSegmentLeft){ //si no genera un target a la derecha
 			std::cout<<"colision izquierda "<<std::endl;
-			double new_target[2]={rightPoint[0]+velocity[0]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[0],rightPoint[1]+velocity[1]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[1]};
-			return this->getSteeringSeek(new_target);
+			//double new_target[2]={rightPoint[0]+velocity[0]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[0],rightPoint[1]+velocity[1]+((maxLinearAcceleration+radii)/maxLinearAcceleration)*steer[1]};
+			double new_target[2]={position[0]+desired[0]*cos(0.1)-desired[1]*sin(0.1),position[1]+desired[0]*sin(0.1)+desired[1]*cos(0.1)};
+			return this->getSteeringSeek(new_target,k+1);
 		}
 		else{
-			std::cout<<"non collision  "<<std::endl;
+			std::cout<<"no collision  "<<std::endl;
 		}
 	}
 

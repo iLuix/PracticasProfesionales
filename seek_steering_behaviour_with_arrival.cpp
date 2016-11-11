@@ -65,7 +65,7 @@ double *SeekSteeringBehaviourWithArrival::getSteeringSeekWithArrival(double targ
 	double norm;
 
 
-	if(desired[0]!=0.0 && desired[0]!=0.0 && desired[0]!=0.0){
+	if(desired[0]!=0.0 && desired[1]!=0.0){
 		double norm=sqrt(desired[0]*desired[0]+desired[1]*desired[1]);
 		double newMagnitud;
 
@@ -98,7 +98,7 @@ double *SeekSteeringBehaviourWithArrival::getSteeringSeekWithArrival(double targ
 		
 		if(collisionSegmentLeft && collisionSegmentRight){
 			if(collisionSegmentRight==collisionSegmentRight){//no esquina
-				double normal[2]={-collisionSegmentRight->getY1()-collisionSegmentRight->getY2(),collisionSegmentRight->getX1()-collisionSegmentRight->getX2()};
+				double normal[2]={-collisionSegmentRight->getY1()+collisionSegmentRight->getY2(),collisionSegmentRight->getX1()-collisionSegmentRight->getX2()};
 				//dadas dos normales, define cu'al es la normal usando producto punto del steer y de la normal obtenida, el cual debe de ser negativo por la direccion de ambos
 				if(normal[0]*steer[0]+normal[1]+steer[1]>0){
 					normal[0]*=-1;

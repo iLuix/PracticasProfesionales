@@ -8,7 +8,8 @@ private:
 	
 public:
 	void seek(double target[2]);
-	double *getSteeringSeek(double target[2]);
+	double *getSteeringSeek(double target[2], int k=0);
+
 	//functions for demos
 	void inicializa_free2d(double pos[2], double LV[2], double maxLV, double maxLA, NavMeshScene *scn=NULL, double r=0, double ar=0){ //inicializa sin colisiones, r es dependiente de scn, no importa el radio si no hay colisiones
 		this->locomotion = new Free2DMovement(pos,LV,maxLV,maxLA,r);
