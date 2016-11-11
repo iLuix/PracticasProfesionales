@@ -9,9 +9,12 @@
 class ProwlSteeringBehaviour: public SeekSteeringBehaviour{
 public:
 	void prowl();
+	double *getSteeringProwl();//no es tan 'util, pues cada vez que se llama se genera un target nuevo...
 	//functions for demos
-	void inicializa_free2d(double pos[3], double ori[3], double LV[3], double maxLV, double maxLA){
-		this->locomotion = new Free2DMovement(pos,ori,LV,maxLV,maxLA);
+	void inicializa_free2d(double pos[2],  double LV[2], double maxLV, double maxLA, NavMeshScene *scn=NULL, double r=0, double ar=0){
+		this->locomotion = new Free2DMovement(pos,LV,maxLV,maxLA,r);
+		this->scene=scn;
+		this->avoidanceRadii=ar;
 		srand(time(0));
 	}
 	
