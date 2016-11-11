@@ -1,0 +1,3 @@
+g++ -std=c++11 -I/usr/local/include/opencv -I/usr/local/include/opencv2 -L/usr/local/lib/ -g -o binary  main.cpp  PrimitiveSegment.cpp Polygon.cpp Obstacle.cpp NavMeshScene.cpp NavMesh2DTrajectory.cpp NavMesh2DNode.cpp NavMesh2D.cpp Math.cpp CustomPriorityQueue.cpp -lopencv_core -lopencv_highgui  -lopencv_features2d -lopencv_imgproc -lopencv_imgcodecs
+
+g++ -std=c++11 -L/.usr/local/lib/  -o binary  main.cpp  PrimitiveSegment.cpp Polygon.cpp Obstacle.cpp NavMeshScene.cpp NavMesh2DTrajectory.cpp NavMesh2DNode.cpp NavMesh2D.cpp Math.cpp CustomPriorityQueue.cpp -lopencv_core -lopencv_highgui  -lopencv_features2d -lopencv_imgproc -lopencv_imgcodecs

@@ -6,14 +6,14 @@
 
 class Free2DMovement: public RigidBodyLocomotion {
 private:	
-	void updateLinearVelocity(double acceleration[3]);
+	void updateLinearVelocity(double acceleration[2]);
 	void updatePosition();
 public:
-	Free2DMovement(double pos[3], double ori[3], double LV[3], double maxLV, double maxLA);
-	void setUpDirection(double direction[3]);
-	void moveInDirection(double direction[3], double velocity);
+	Free2DMovement(double pos[2], double LV[2], double maxLV, double maxLA, double r);
+	void setUpDirection(double direction[2]);
+	void moveInDirection(double direction[2], double velocity);
 	//funcion virtual
-	void applyForce(double steer[3]);
+	void applyForce(double steer[2]);
 };
 
 #endif

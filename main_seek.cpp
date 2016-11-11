@@ -1,9 +1,9 @@
 #include <fstream>
 #include <iostream>
-#include "seek_steering_behaviour_with_arrival.hpp"
+#include "seek_steering_behaviour.hpp"
 using namespace std;
 int main(){
-	SeekSteeringBehaviourWithArrival cosa;
+	SeekSteeringBehaviour cosa;
 	double posicioninicial[3]={50,50};
 	double velocidadinicial[3]={10,0};
 	double maxLV=10;
@@ -16,8 +16,8 @@ int main(){
 	double target4[3]={600,600};
 	double target5[3]={300,300};
 	ofstream salida;
-	salida.open("dibuja_2/salida_seekwitharrival.txt");
-	cosa.inicializa_free2d(posicioninicial, velocidadinicial, maxLV, maxLA,30);
+	salida.open("dibuja_2/salida_seek.txt");
+	cosa.inicializa_free2d(posicioninicial, velocidadinicial, maxLV, maxLA);
 	double *aux;
 	int n=720;
 	salida<<n<<endl;

@@ -13,7 +13,9 @@ String lines[];
 PVector tar;
 void setup() {
   size(600,600,P3D);
-   lines = loadStrings("salida2.txt");
+   //lines = loadStrings("salida_follow_path.txt");
+   //lines = loadStrings("salida2.txt");
+   lines = loadStrings("salida_prowl.txt");
   println("there are " + lines.length + " lines");
   n=int(lines[0]);
   i=0;
@@ -36,8 +38,8 @@ void draw(){
   //fill(255,255,255);
   pushMatrix();
   float x=float(pos[0]);
-  float y=float(pos[1]);
-  float z=float(pos[2]);
+  float y=30;
+  float z=float(pos[1]);
   
   while(x>600) x-=600;
   while(x<0) x+=600;
