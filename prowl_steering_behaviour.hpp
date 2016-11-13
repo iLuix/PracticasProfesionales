@@ -11,7 +11,7 @@ public:
 	void prowl();
 	double *getSteeringProwl();//no es tan 'util, pues cada vez que se llama se genera un target nuevo...
 	//functions for demos
-	void inicializa_free2d(double pos[2],  double LV[2], double maxLV, double maxLA, NavMeshScene *scn=NULL, double r=0, double ar=0){
+	void inicializa_free2d(double pos[2],  double LV[2], double maxLV, double maxLA, NavMeshScene *scn, double r, double ar){
 		this->locomotion = new Free2DMovement(pos,LV,maxLV,maxLA,r);
 		this->scene=scn;
 		this->avoidanceRadii=ar;

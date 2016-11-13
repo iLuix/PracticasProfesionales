@@ -14,11 +14,12 @@
 
 class SteeringBehaviour{
 protected:
-	RigidBodyLocomotion *locomotion;
+	//RigidBodyLocomotion *locomotion;
 	NavMeshScene *scene;
 	double avoidanceRadii;				//radio de evaci'on	
 	SteeringBehaviour();
 public:
+	RigidBodyLocomotion *locomotion;
 	double* getPosition(){return this->locomotion->getPosition();}
 };
 #endif

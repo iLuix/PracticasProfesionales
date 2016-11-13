@@ -3,7 +3,7 @@
   
   **arribar
   merodear
-  huir
+  huirr
   seguir camino
 */
 
@@ -15,7 +15,7 @@ void setup() {
   size(1500,1000);
    //lines = loadStrings("salida_follow_path.txt");
    //lines = loadStrings("salida2.txt");
-   lines = loadStrings("salida_prowl.txt");
+   lines = loadStrings("salida_colisiones.txt");
   println("there are " + lines.length + " lines");
   n=int(lines[0]);
   i=0;
@@ -25,7 +25,8 @@ void setup() {
   
 }
 void draw_map(){
-   
+   background(255);
+   fill(100);
       beginShape();
     vertex(0, 475);
     vertex(500, 475);
@@ -229,7 +230,7 @@ void draw(){
   String[] pos=split(lines[i+1],' ');
   i++;
   if(i%n==0)
-    draw_map();
+    //draw_map();
   i%=n;
   //background(255);
   noStroke();
@@ -246,7 +247,20 @@ endShape();*/
   
   float x=float(pos[0]);
   float y=float(pos[1]);
-  fill(100);
+  int k=int(pos[2]);
+  if(k==1){
+     float x1=float(pos[3]),y1=float(pos[4]);
+     line(x,y,x1,y1);
+     fill(0,255,0);
+     ellipse(x1,y1,5,5);
+     
+    fill(0,0,200);
+    
+    
+    
+  }
+  else
+    fill(255,0,0);
   ellipse(x,y,5,5);
   
 }

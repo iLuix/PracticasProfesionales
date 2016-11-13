@@ -233,7 +233,7 @@ int main(int argc, const char * argv[]) {
     o31.addVertex(1475, 900);
     
     //CONSTRUCCION DE LA ESCENA
-    NavMeshScene scene(1500,1000,0.5);
+    NavMeshScene scene(1500,1000,1.0);
     scene.addPolygonFloor(floor);
     scene.addPolygonObstacle(o1);
     scene.addPolygonObstacle(o2);
@@ -270,36 +270,81 @@ int main(int argc, const char * argv[]) {
    
     
     
-    double x1 = 471;
-    double y1 = 250;
+    double x1 = 671;
+    double y1 = 240;
 
-    int n=1000;
+    int n=10000;
     //cin>>n;
 
     ProwlSteeringBehaviour cosa;
-    double posicioninicial[2]={x1, x1 };
+    double posicioninicial[2]={x1, y1 };
     double velocidadinicial[2]={0,0};
     
-    double maxLV=3;
-    double maxLA=1;
+    double maxLV=2;
+    double maxLA=1.8;
 
     std::ofstream salida;
     salida.open("dibuja_2/salida_prowl.txt");
-    cosa.inicializa_free2d(posicioninicial, velocidadinicial, maxLV, maxLA,&scene,1.0,10.0);
+    cosa.inicializa_free2d(posicioninicial, velocidadinicial, maxLV, maxLA,&scene,1.0,maxLV);
 
     salida<<n<<std::endl;
     double *aux;
     for(int i=0;i<n;i++){
         double *pos=cosa.getPosition();
-        cosa.prowl();
-        aux=cosa.getPosition();
-        salida<<aux[0]<<" "<<aux[1]<<"        "<<std::endl;
+        double  *st=cosa.getSteeringProwl();
+        if(st){
+        	cosa.locomotion->applyForce(st);
+        	aux=cosa.getPosition();
+        salida<<aux[0]<<" "<<aux[1]<<" "<<10*st[0]<<" "<<10*st[1]<<std::endl;
+        	delete[] st;
+        }
+        else{
+        	aux=cosa.getPosition();
+        	salida<<aux[0]<<" "<<aux[1]<<" 0 0"<<std::endl;
+        }
+
+        
         std::cout<<i<<std::endl;
         //cout<<cosa.getCurrentSegment()<<endl;
     }
     salida.close();
 
+    salida.open("dibuja_colisiones/salida_colisiones.txt");
+    salida<<10000<<std::endl;
+    for(int i=0;i<10000;i++){
+    	x1=rand()%1500;
+    	y1=rand()%1000;
+    	
+    	salida<<x1<<" "<<y1<<" "<<scene.isPointFreeInScene(x1,y1)<<std::endl;
 
+
+    }
+	salida.close();
+
+	salida.open("dibuja_futuras_colisiones/salida_colisiones.txt");
+    salida<<50<<std::endl;
+    for(int i=0;i<50;i++){
+    	x1=rand()%1500;
+    	y1=rand()%1000;
+    	if(scene.isPointFreeInScene(x1,y1)==0)
+    		salida<<x1<<" "<<y1<<" "<<0<<std::endl;
+    	else{
+    		double theta=(double(rand())/RAND_MAX)*2*M_PI;
+    		double r=100+rand()%50;
+    		double xc,yc;
+    		PrimitiveSegment *col =scene.predictCollisionPoint(x1,y1,x1+cos(theta)*r,y1+sin(theta)*r,xc,yc);
+    		if(!col){
+    			xc=x1+cos(theta)*r;
+    			yc=y1+sin(theta)*r;
+    		}
+    		salida<<x1<<" "<<y1<<" "<<1<<" "<<xc<<" "<<yc<<std::endl;
+    		
+    	}
+
+
+
+    }
+	salida.close();
 
     /*
     double x2 = 1707;
