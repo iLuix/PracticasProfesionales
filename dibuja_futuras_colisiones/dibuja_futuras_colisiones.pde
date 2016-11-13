@@ -250,6 +250,7 @@ endShape();*/
   int k=int(pos[2]);
   if(k==1){
      float x1=float(pos[3]),y1=float(pos[4]);
+     stroke(0);
      line(x,y,x1,y1);
      fill(0,255,0);
      ellipse(x1,y1,5,5);

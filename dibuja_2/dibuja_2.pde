@@ -3,7 +3,7 @@
   
   **arribar
   merodear
-  huir
+  huirr
   seguir camino
 */
 
@@ -13,6 +13,7 @@ String lines[];
 PVector tar;
 void setup() {
   size(1500,1000);
+  //frameRate(1);
    //lines = loadStrings("salida_follow_path.txt");
    //lines = loadStrings("salida2.txt");
    lines = loadStrings("salida_prowl.txt");
@@ -25,7 +26,8 @@ void setup() {
   
 }
 void draw_map(){
-   
+   background(255);
+   fill(100);
       beginShape();
     vertex(0, 475);
     vertex(500, 475);
@@ -34,6 +36,7 @@ void draw_map(){
     endShape();
     
     beginShape();
+    
     vertex(750, 0);
     vertex(750, 475);
     vertex(550,475);
@@ -231,6 +234,7 @@ void draw(){
   if(i%n==0)
     draw_map();
   i%=n;
+  
   //background(255);
   noStroke();
   fill(0);
@@ -246,7 +250,11 @@ endShape();*/
   
   float x=float(pos[0]);
   float y=float(pos[1]);
-  fill(100);
+  fill(200,0,200);
+  stroke(0);
+  
+  //line(x,y,x+float(pos[2]),y+float(pos[3]));
+  noStroke();
   ellipse(x,y,5,5);
   
 }
