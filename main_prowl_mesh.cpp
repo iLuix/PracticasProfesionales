@@ -269,23 +269,30 @@ int main(int argc, const char * argv[]) {
     scene.drawScene(cv::Vec3b(255,255,255), cv::Vec3b(255,0,0));
    
     
-    
+    //posicion inicial del agente
     double x1 = 671;
     double y1 = 240;
-
-    int n=10000;
+    srand(time(NULL));
+    do{
+    	x1=rand()%1500;
+    	y1=rand()%1000;
+    }while(scene.isPointFreeInScene(x1,y1)==0);
+    
+    
+//numero de pasos de merodeo
+    int n=5000;
     //cin>>n;
-
+//la cosa que merodea
     ProwlSteeringBehaviour cosa;
     double posicioninicial[2]={x1, y1 };
     double velocidadinicial[2]={0,0};
-    
+//velocidad y aceleracion maxima
     double maxLV=2;
     double maxLA=1.8;
-
+//archivo de salida del merodeo
     std::ofstream salida;
-    salida.open("dibuja_2/salida_prowl.txt");
-    cosa.inicializa_free2d(posicioninicial, velocidadinicial, maxLV, maxLA,&scene,1.0,maxLV);
+    salida.open("dibuja_2/salida_prowl_4.txt");
+    cosa.inicializa_free2d(posicioninicial, velocidadinicial, maxLV, maxLA,&scene,10.0,maxLV*2);
 
     salida<<n<<std::endl;
     double *aux;
@@ -304,13 +311,13 @@ int main(int argc, const char * argv[]) {
         }
 
         
-        std::cout<<i<<std::endl;
+        //std::cout<<i<<std::endl;
         //cout<<cosa.getCurrentSegment()<<endl;
     }
     salida.close();
 
     salida.open("dibuja_colisiones/salida_colisiones.txt");
-    salida<<10000<<std::endl;
+    salida<<n<<std::endl;
     for(int i=0;i<10000;i++){
     	x1=rand()%1500;
     	y1=rand()%1000;
@@ -359,9 +366,9 @@ int main(int argc, const char * argv[]) {
         
     }*/
     
-    
+    //la siguiente parte del codigo no es usado para el prowl...
 #else
-    //CONSTRUCCION DE LA MALLA DE NAVEGACIÓN ---------------
+    //CONSTRUCCION DE LA MALLA DE NAVEGACIÓN --------------- 
     NavMesh2D navmesh(scene);
     navmesh.build();
     navmesh.drawNavMesh();

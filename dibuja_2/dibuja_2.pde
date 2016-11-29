@@ -1,14 +1,8 @@
-/*
-  miercoles 12pm
-  
-  **arribar
-  merodear
-  huirr
-  seguir camino
-*/
+
 
 int i;
 int n;
+float x,y;
 String lines[];
 PVector tar;
 void setup() {
@@ -16,7 +10,11 @@ void setup() {
   //frameRate(1);
    //lines = loadStrings("salida_follow_path.txt");
    //lines = loadStrings("salida2.txt");
-   lines = loadStrings("salida_prowl.txt");
+   
+   //lines = loadStrings("salida_prowl.txt");
+   //lines = loadStrings("salida_prowl_2.txt");
+   //lines = loadStrings("salida_prowl_3.txt");
+   lines = loadStrings("salida_prowl_4.txt");
   println("there are " + lines.length + " lines");
   n=int(lines[0]);
   i=0;
@@ -247,9 +245,11 @@ vertex(x2,y2);
 vertex(x3,y3);
 vertex(x4,y4);
 endShape();*/
-  
-  float x=float(pos[0]);
-  float y=float(pos[1]);
+  if(i!=0)
+  fill(255,255,255);//borra el anterior
+  ellipse(x,y,5,5);
+  x=float(pos[0]);
+  y=float(pos[1]);
   fill(200,0,200);
   stroke(0);
   
